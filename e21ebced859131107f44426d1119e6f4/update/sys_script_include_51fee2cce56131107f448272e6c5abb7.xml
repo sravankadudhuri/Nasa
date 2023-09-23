@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sys_script_include">
+    <sys_script_include action="INSERT_OR_UPDATE">
+        <access>public</access>
+        <active>true</active>
+        <api_name>x_snc_nasa_home.GenerateContent</api_name>
+        <caller_access/>
+        <client_callable>true</client_callable>
+        <description/>
+        <name>GenerateContent</name>
+        <script><![CDATA[var GenerateContent = Class.create();
+GenerateContent.prototype = Object.extendsObject(global.AbstractAjaxProcessor, {
+    generateContent: function() {
+        var topic = this.getParameter("sysparm_topic");
+        var message = [];
+        var item = {};
+        item.role = "assistant";
+        item.content = "Generate a knowledge article for the given topic(###) in the output format($$$).\n$$$ Title: article title \nDescription: article short description \nBody: article body strictly in `HTML format`.Include `links, audio and video files` during the body generation. $$$";
+        message.push(item);
+        item = {};
+        item.role = "user";
+        item.content = "### " + topic + " ###";
+        message.push(item);
+        //gs.info(JSON.stringify(message,null,2));
+        try {
+            var inputs = {};
+            inputs['deployment_id'] = 'gpt-35-turbo-16k'; // String 
+            inputs['messages'] = message; // Array.Object 
+            inputs['temperature'] = 0; // Floating Point Number 
+            inputs['max_tokens'] = 1000; // Integer 
+            inputs['top_p'] = 1; // Floating Point Number 
+
+            var result = sn_fd.FlowAPI.getRunner().action('sn_azure_openai.chat_completions').inForeground().withInputs(inputs).run();
+            var outputs = result.getOutputs();
+
+            var id = outputs['id']; // String
+            var object = outputs['object']; // String
+            var created = outputs['created']; // Integer
+            var model = outputs['model']; // String
+            var usage = outputs['usage']; // Object
+            var choices = outputs['choices']; // Array.Object
+            //gs.info(JSON.stringify(usage, null, 2));
+            var response = choices[0].message.content.replace(/\n/ig, "");
+             gs.info("svntst "+response);
+
+            var title = (response.substring(response.indexOf("Title:") + 6, response.indexOf("Description:")));
+
+            var description = (response.substring(response.indexOf("Description:") + 12, response.indexOf("Body:")));
+
+            var body = ((response.substring(response.indexOf("Body:") + 5, response.length)).replace(/(\$\$\$)/ig, ""));
+            gs.info("svntst " + body);
+            return JSON.stringify({
+                "title": title,
+                "description": description,
+                "body": body
+            });
+        } catch (ex) {
+            var errorMsg = ex.getMessage();
+            gs.error(errorMsg);
+        }
+    },
+
+    type: 'GenerateContent'
+});]]></script>
+        <sys_class_name>sys_script_include</sys_class_name>
+        <sys_created_by>svnadmin</sys_created_by>
+        <sys_created_on>2023-09-23 10:35:07</sys_created_on>
+        <sys_id>51fee2cce56131107f448272e6c5abb7</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>GenerateContent</sys_name>
+        <sys_package display_value="Nasa Home" source="x_snc_nasa_home">e21ebced859131107f44426d1119e6f4</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Nasa Home">e21ebced859131107f44426d1119e6f4</sys_scope>
+        <sys_update_name>sys_script_include_51fee2cce56131107f448272e6c5abb7</sys_update_name>
+        <sys_updated_by>svnadmin</sys_updated_by>
+        <sys_updated_on>2023-09-23 10:35:07</sys_updated_on>
+    </sys_script_include>
+</record_update>
