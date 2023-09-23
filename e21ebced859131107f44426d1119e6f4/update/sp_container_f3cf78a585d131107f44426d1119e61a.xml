@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?><record_update table="sp_container">
+    <sp_container action="INSERT_OR_UPDATE">
+        <background_color/>
+        <background_image/>
+        <background_style>default</background_style>
+        <bootstrap_alt>false</bootstrap_alt>
+        <class_name/>
+        <container_class_name/>
+        <name>Nasa Home - Container 1</name>
+        <order>1</order>
+        <sp_page display_value="nasa_home">f59ffca585d131107f44426d1119e69e</sp_page>
+        <subheader>false</subheader>
+        <sys_class_name>sp_container</sys_class_name>
+        <sys_created_by>svnadmin</sys_created_by>
+        <sys_created_on>2023-09-15 08:04:42</sys_created_on>
+        <sys_id>f3cf78a585d131107f44426d1119e61a</sys_id>
+        <sys_mod_count>0</sys_mod_count>
+        <sys_name>Nasa Home - Container 1</sys_name>
+        <sys_package display_value="Nasa Home" source="x_snc_nasa_home">e21ebced859131107f44426d1119e6f4</sys_package>
+        <sys_policy/>
+        <sys_scope display_value="Nasa Home">e21ebced859131107f44426d1119e6f4</sys_scope>
+        <sys_update_name>sp_container_f3cf78a585d131107f44426d1119e61a</sys_update_name>
+        <sys_updated_by>svnadmin</sys_updated_by>
+        <sys_updated_on>2023-09-15 08:04:42</sys_updated_on>
+        <title/>
+        <width>container</width>
+    </sp_container>
+</record_update>
